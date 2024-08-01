@@ -16,6 +16,7 @@ public class ManagemenetCellPhone extends FilePlain{
 		List<String> records = new ArrayList<>();
 		 for(CellPhone cellDTO : listCells){
 			 StringBuilder contentCell = new StringBuilder();
+			 contentCell.append(cellDTO.getId()).append(CommonConstants.SEMI_COLON);
 			 contentCell.append(cellDTO.getModel()).append(CommonConstants.SEMI_COLON);
 			 contentCell.append(cellDTO.getCellPhoneNumber()).append(CommonConstants.SEMI_COLON);
 			 contentCell.append(cellDTO.getMemory()).append(CommonConstants.SEMI_COLON);
@@ -30,11 +31,12 @@ public class ManagemenetCellPhone extends FilePlain{
 		for ( String row: contentInLine) {
 			StringTokenizer tokens = new StringTokenizer(row, CommonConstants.SEMI_COLON);
 			while(tokens.hasMoreElements()) {
+				int id = Integer.parseInt(tokens.nextToken());
 				String model = tokens.nextToken();
 				String cellPhoneNumber = tokens.nextToken();
 				String memory = tokens.nextToken();
 				String color = tokens.nextToken();
-				listCells.add(new CellPhone(model, cellPhoneNumber, memory, color));
+				listCells.add(new CellPhone(id, model, cellPhoneNumber, memory, color));
 			}
 		}
 	}

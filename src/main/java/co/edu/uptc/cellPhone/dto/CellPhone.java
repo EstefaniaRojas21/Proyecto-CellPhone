@@ -6,6 +6,7 @@ public class CellPhone implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	
+	private int id;
 	private String model;
 	private String cellPhoneNumber;
 	private String memory;
@@ -15,8 +16,9 @@ public class CellPhone implements Serializable{
 		super();
 	}
 
-	public CellPhone(String model, String cellPhoneNumber, String memory, String color) {
+	public CellPhone(int id, String model, String cellPhoneNumber, String memory, String color) {
 		super();
+		this.id = id;
 		this.model = model;
 		this.cellPhoneNumber = cellPhoneNumber;
 		this.memory = memory;
@@ -25,6 +27,10 @@ public class CellPhone implements Serializable{
 
 	public String getModel() {
 		return model;
+	}
+	
+	public void setModel(String model) {
+		this.model = model;
 	}
 
 	public String getCellPhoneNumber() {
@@ -55,14 +61,21 @@ public class CellPhone implements Serializable{
 		return serialVersionUID;
 	}
 
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	@Override
 	public String toString() {
-	    return "CellPhone [\n"
-	            + "    model=" + model + ",\n"
-	            + "    cellPhoneNumber=" + cellPhoneNumber + ",\n"
-	            + "    memory=" + memory + ",\n"
-	            + "    color=" + color + "\n"
-	            + "]";
+		return "CellPhone [id=" + id + ", model=" + model + ", cellPhoneNumber=" + cellPhoneNumber + ", memory="
+				+ memory + ", color=" + color + "]";
 	}
+	
+
+	
 
 }
