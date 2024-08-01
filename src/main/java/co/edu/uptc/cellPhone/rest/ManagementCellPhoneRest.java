@@ -29,12 +29,12 @@ public class ManagementCellPhoneRest {
 		managementOwners.loadFilePlain("/data/owner.txt");
 	}
 	
-	/*@GET
+	@GET
 	@Path("/getCells")
 	@Produces( {MediaType.APPLICATION_JSON} )
 	public List<CellPhone> getCellPhones(){
 		return managementCells.getListCell();
-	}*/
+	}
 	
 	@GET
 	@Path("/getCellByCode")
@@ -77,7 +77,7 @@ public class ManagementCellPhoneRest {
 				cell.setCellPhoneNumber(cellDTO.getCellPhoneNumber());
 				cell.setMemory(cellDTO.getMemory());
 				cell.setColor(cellDTO.getColor());
-				managementCells.dumpFilePlain("cell.txt");
+				managementCells.dumpFilePlain("cellPhone.txt");
 				return cell;
 			}
 		}
@@ -122,7 +122,7 @@ public class ManagementCellPhoneRest {
 		    
 		    if (cell != null) {
 		        managementCells.getListCell().remove(cell);
-		        managementCells.dumpFilePlain("cell.txt");
+		        managementCells.dumpFilePlain("cellPhone.txt");
 
 		        String cellPhoneNumber = cell.getCellPhoneNumber();
 		        if (cellPhoneNumber != null) {
