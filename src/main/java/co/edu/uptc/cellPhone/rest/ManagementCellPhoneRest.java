@@ -19,6 +19,107 @@ import co.edu.uptc.cellPhone.persistence.ManagemenetCellPhone;
 @Path("/ManagementCellPhone")
 public class ManagementCellPhoneRest {
 	
+	public static ManagemenetCellPhone managementCells = new ManagemenetCellPhone();
 	
+	static {
+		managementCells.loadFilePlain("/data/cellPhone.txt");
+	}
+	
+	/*@GET
+	@Path("/getCells")
+	@Produces( {MediaType.APPLICATION_JSON} )
+	public List<CellPhone> getCellPhones(){
+		return managementCells.getListCell();
+	}*/
+	
+	@GET
+	@Path("/getCellByCode")
+	@Produces ( {MediaType.APPLICATION_JSON} )
+	public CellPhone getCellByCode(@QueryParam("code") int code) {
+		for(CellPhone cellDTO: managementCells.getListCell()) {
+			if(cellDTO.getId() == code) {
+				return cellDTO;
+			}
+		}
+		return null;
+	}
+	
+	@POST
+	@Path("/createCell")
+	@Produces({ MediaType.APPLICATION_JSON })
+	@Consumes({ MediaType.APPLICATION_JSON })
+	public CellPhone createCell(CellPhone cell) {
+		for (CellPhone existingCell : managementCells.getListCell()) {
+	        if (existingCell.getCellPhoneNumber().equals(cell.getCellPhoneNumber())) {
+	            return null;
+	        }
+	    }
+		if(managementCells.getListCell().add(cell)) {
+			managementCells.dumpFilePlain("cell.txt");
+			return cell;
+		}
+		return null;
+	}
+	
+	@PUT
+	@Path("/updateCell")
+	@Produces({ MediaType.APPLICATION_JSON })
+	@Consumes({ MediaType.APPLICATION_JSON })
+	public CellPhone updateCell(CellPhone cellDTO) {
+		for ( CellPhone cell: managementCells.getListCell()) {
+			if(cell.getId() == cellDTO.getId()) {
+				cell.setId(cellDTO.getId());
+				cell.setModel(cellDTO.getModel());
+				cell.setCellPhoneNumber(cellDTO.getCellPhoneNumber());
+				cell.setMemory(cellDTO.getMemory());
+				cell.setColor(cellDTO.getColor());
+				managementCells.dumpFilePlain("cell.txt");
+				return cell;
+			}
+		}
+		return null;
+	}
+	
+	/*@PUT
+	@Path("/updateCellByAtribute")
+	@Produces({ MediaType.APPLICATION_JSON })
+	@Consumes({ MediaType.APPLICATION_JSON })
+	public CellPhone updateCellByAtribute(CellPhone cellDTO) {
+		for(CellPhone cell: managementCells.getListCell()) {
+			if(cell.getId() == cellDTO.getId()) {
+				if(!Objects.isNull(cellDTO.getId())) {
+					cell.setId(cellDTO.getId());
+				}
+				if(!Objects.isNull(cellDTO.getModel())) {
+					cell.setModel(cellDTO.getModel());
+				}
+				if(!Objects.isNull(cellDTO.getCellPhoneNumber())) {
+					cell.setCellPhoneNumber(cellDTO.getCellPhoneNumber());
+				}
+				if(!Objects.isNull(cellDTO.getMemory())) {
+					cell.setMemory(cellDTO.getMemory());
+				}
+				if(!Objects.isNull(cellDTO.getColor())) {
+					cell.setColor(cellDTO.getColor());
+				}
+				managementCells.dumpFilePlain("/cell.txt");
+				return cell;
+			}
+		}
+		return null;
+	}*/
+	
+	
+	@DELETE
+	@Path("/deleteCell")
+	@Produces({ MediaType.APPLICATION_JSON })
+	public CellPhone deleteCell(@QueryParam("code") int code) {
+		CellPhone cell = this.getCellByCode(code);
+		if(cell != null) {
+			managementCells.getListCell().remove(code);
+			managementCells.dumpFilePlain("cell.txt");
+		}
+		return cell;
+	}
 		
 }
