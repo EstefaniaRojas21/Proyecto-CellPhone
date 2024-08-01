@@ -10,6 +10,14 @@ import co.edu.uptc.cellPhone.dto.OwnerCellPhone;
 public class ManagementOwner extends FilePlain{
 	private List<OwnerCellPhone> listOwners = new ArrayList<>();
 	
+	public OwnerCellPhone findOwnerByCell(String cell) {
+		for (OwnerCellPhone owner: this.listOwners) {
+			if (owner.getCell().equals(cell)) {
+				return owner;
+			}
+		}return null;
+	}
+	
 	public void dumpFilePlain(String rutaArchivo) {
 		List<String> records = new ArrayList<>();
 		 for(OwnerCellPhone OwnerDTO : listOwners){

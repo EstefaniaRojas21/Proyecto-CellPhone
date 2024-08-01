@@ -14,15 +14,19 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import co.edu.uptc.cellPhone.dto.CellPhone;
+import co.edu.uptc.cellPhone.dto.OwnerCellPhone;
 import co.edu.uptc.cellPhone.persistence.ManagemenetCellPhone;
+import co.edu.uptc.cellPhone.persistence.ManagementOwner;
 
 @Path("/ManagementCellPhone")
 public class ManagementCellPhoneRest {
 	
 	public static ManagemenetCellPhone managementCells = new ManagemenetCellPhone();
+	public static ManagementOwner managementOwners = new ManagementOwner();
 	
 	static {
 		managementCells.loadFilePlain("/data/cellPhone.txt");
+		managementOwners.loadFilePlain("/data/owner.txt");
 	}
 	
 	/*@GET
@@ -114,12 +118,22 @@ public class ManagementCellPhoneRest {
 	@Path("/deleteCell")
 	@Produces({ MediaType.APPLICATION_JSON })
 	public CellPhone deleteCell(@QueryParam("code") int code) {
-		CellPhone cell = this.getCellByCode(code);
-		if(cell != null) {
-			managementCells.getListCell().remove(code);
-			managementCells.dumpFilePlain("cell.txt");
-		}
-		return cell;
+		 CellPhone cell = this.getCellByCode(code);
+		    
+		    if (cell != null) {
+		        managementCells.getListCell().remove(cell);
+		        managementCells.dumpFilePlain("cell.txt");
+
+		        String cellPhoneNumber = cell.getCellPhoneNumber();
+		        if (cellPhoneNumber != null) {
+		            OwnerCellPhone owner = managementOwners.findOwnerByCell(cellPhoneNumber);
+		            if (owner != null) {
+		                managementOwners.getListOwners().remove(owner);
+		                managementOwners.dumpFilePlain("owner.txt");
+		            }
+		        }
+		    }    
+		    return cell;
 	}
 		
 }
